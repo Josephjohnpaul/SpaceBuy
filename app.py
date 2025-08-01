@@ -2,8 +2,10 @@ import streamlit as st
 import pandas as pd
 from data import get_products, get_planets, get_space_agencies
 from ai_pricing import get_ai_pricing, generate_product_description
-from utils import calculate_delivery_cost, format_price
+from utils import calculate_delivery_cost, format_price, generate_tracking_number, calculate_estimated_delivery_time
+import db_utils
 import random
+import uuid
 
 # Configure page
 st.set_page_config(
@@ -55,6 +57,10 @@ if 'planets' not in st.session_state:
     st.session_state.planets = get_planets()
 if 'space_agencies' not in st.session_state:
     st.session_state.space_agencies = get_space_agencies()
+if 'user_session' not in st.session_state:
+    st.session_state.user_session = str(uuid.uuid4())
+if 'current_user' not in st.session_state:
+    st.session_state.current_user = None
 
 def main():
     # Header
@@ -64,9 +70,35 @@ def main():
     
     # Sidebar
     st.sidebar.title("🌌 Navigation")
+    
+    # User login section
+    if not st.session_state.current_user:
+        with st.sidebar.expander("👨‍🚀 Customer Login"):
+            with st.form("login_form"):
+                name = st.text_input("Name:")
+                email = st.text_input("Email:")
+                planet_pref = st.selectbox("Favorite Planet:", ["None"] + list(st.session_state.planets.keys()))
+                
+                if st.form_submit_button("🚀 Join SpaceBuy"):
+                    if name and email:
+                        user_data = db_utils.create_user(name, email, planet_pref if planet_pref != "None" else None)
+                        if user_data:
+                            st.session_state.current_user = user_data
+                            st.success(f"Welcome to SpaceBuy, {user_data['name']}!")
+                            st.rerun()
+                        else:
+                            st.error("Login failed: Please try again")
+    else:
+        st.sidebar.success(f"👋 {st.session_state.current_user['name']}")
+        st.sidebar.write(f"🏅 {st.session_state.current_user['loyalty_level']}")
+        if st.sidebar.button("🚪 Logout"):
+            st.session_state.current_user = None
+            st.rerun()
+    
     page = st.sidebar.selectbox(
         "Choose your adventure:",
-        ["🛒 Browse Products", "🔍 AI Product Search", "⚖️ Price Comparison", "📞 Contact & Careers"]
+        ["🛒 Browse Products", "🔍 AI Product Search", "⚖️ Price Comparison", 
+         "📊 Analytics Dashboard", "📦 My Orders", "📞 Contact & Careers"]
     )
     
     if page == "🛒 Browse Products":
@@ -75,6 +107,10 @@ def main():
         ai_product_search()
     elif page == "⚖️ Price Comparison":
         price_comparison()
+    elif page == "📊 Analytics Dashboard":
+        analytics_dashboard()
+    elif page == "📦 My Orders":
+        my_orders()
     elif page == "📞 Contact & Careers":
         contact_and_careers()
 
@@ -168,8 +204,32 @@ def browse_products():
             
             with col2:
                 if st.button(f"💸 Buy for {format_price(total_price)}", key=f"buy_{product['name']}_{selected_planet}"):
-                    st.error("💸 Transaction failed: Insufficient galactic credits!")
-                    st.info("💡 Tip: Try selling a kidney or your home planet!")
+                    if st.session_state.current_user:
+                        # Create order in database
+                        tracking_num = generate_tracking_number()
+                        delivery_time = calculate_estimated_delivery_time(planet_info)
+                        
+                        order_id = db_utils.create_order(
+                            user_id=st.session_state.current_user['id'],
+                            product_name=product['name'],
+                            product_category=product['category'],
+                            destination_planet=selected_planet,
+                            base_price_usd=product['base_price'],
+                            delivery_cost_usd=delivery_cost,
+                            total_price_inr=total_price * 83,  # Convert to INR
+                            space_agency=agency,
+                            estimated_delivery_time=delivery_time,
+                            tracking_number=tracking_num
+                        )
+                        
+                        if order_id:
+                            st.success(f"🎉 Order placed! Order ID: {order_id}")
+                            st.info(f"📦 Tracking: {tracking_num}")
+                            st.balloons()
+                        else:
+                            st.error("💸 Order failed: Please try again!")
+                    else:
+                        st.warning("🚀 Please login first to place orders!")
                 
                 if st.button(f"📊 Cost Breakdown", key=f"breakdown_{product['name']}_{selected_planet}"):
                     show_cost_breakdown(product, planet_info, delivery_cost)
@@ -212,6 +272,10 @@ def ai_product_search():
                 planet_info = st.session_state.planets[target_planet]
                 ai_price = get_ai_pricing(product_query, planet_info)
                 
+                # Add to search history
+                total_ai_price = ai_price['base_price'] * ai_price['multiplier']
+                db_utils.add_search_history(product_query, target_planet, total_ai_price, st.session_state.user_session)
+                
                 # Display results
                 col1, col2 = st.columns([2, 1])
                 
@@ -238,7 +302,32 @@ def ai_product_search():
                     st.write(f"**ETA:** {agency_info['delivery_time']}")
                     
                     if st.button("💸 Order Now!"):
-                        st.error("💸 Payment declined: Your bank account is not compatible with interplanetary commerce!")
+                        if st.session_state.current_user:
+                            # Create order in database for AI product
+                            tracking_num = generate_tracking_number()
+                            delivery_time = calculate_estimated_delivery_time(planet_info)
+                            
+                            order_id = db_utils.create_order(
+                                user_id=st.session_state.current_user['id'],
+                                product_name=product_query,
+                                product_category='AI Generated',
+                                destination_planet=target_planet,
+                                base_price_usd=ai_price['base_price'],
+                                delivery_cost_usd=delivery_cost,
+                                total_price_inr=total_price * 83,  # Convert to INR
+                                space_agency=agency,
+                                estimated_delivery_time=delivery_time,
+                                tracking_number=tracking_num
+                            )
+                            
+                            if order_id:
+                                st.success(f"🎉 Order placed! Order ID: {order_id}")
+                                st.info(f"📦 Tracking: {tracking_num}")
+                                st.balloons()
+                            else:
+                                st.error("💸 Order failed: Please try again!")
+                        else:
+                            st.warning("🚀 Please login first to place orders!")
                 
                 # Cost breakdown
                 if st.button("📊 Show Detailed Cost Breakdown"):
@@ -554,6 +643,102 @@ def show_ai_cost_breakdown(ai_price, planet_info, delivery_cost, product_name, p
     
     df_breakdown = pd.DataFrame(breakdown_data)
     st.dataframe(df_breakdown, use_container_width=True)
+
+def analytics_dashboard():
+    st.header("📊 SpaceBuy Analytics Dashboard")
+    
+    # Get dashboard stats
+    stats = db_utils.get_dashboard_stats()
+    
+    # Display key metrics
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.metric("Total Orders", stats['total_orders'])
+    with col2:
+        st.metric("Total Revenue", format_price(stats['total_revenue'] / 83))  # Convert back to USD for formatting
+    with col3:
+        st.metric("Total Customers", stats['total_users'])
+    with col4:
+        st.metric("Most Popular Planet", stats['most_popular_planet'])
+    
+    st.markdown("---")
+    
+    # Planet statistics
+    st.subheader("🪐 Planet Performance")
+    planet_stats = db_utils.get_planet_stats()
+    
+    if planet_stats is not None and not planet_stats.empty:
+        # Create charts
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.write("**Orders by Planet**")
+            chart_data = planet_stats.set_index('planet_name')['total_orders']
+            st.bar_chart(chart_data)
+        
+        with col2:
+            st.write("**Revenue by Planet (₹)**")
+            chart_data = planet_stats.set_index('planet_name')['total_revenue_inr']
+            st.bar_chart(chart_data)
+        
+        # Show detailed table
+        st.subheader("📈 Detailed Planet Statistics")
+        display_stats = planet_stats.copy()
+        display_stats['total_revenue_inr'] = display_stats['total_revenue_inr'].apply(lambda x: format_price(x / 83))
+        display_stats['avg_order_value'] = display_stats['avg_order_value'].apply(lambda x: format_price(x / 83))
+        st.dataframe(display_stats, use_container_width=True)
+    else:
+        st.info("📊 No order data available yet. Start placing some orders to see analytics!")
+
+def my_orders():
+    st.header("📦 My Orders")
+    
+    if not st.session_state.current_user:
+        st.warning("🚀 Please login to view your orders!")
+        return
+    
+    orders = db_utils.get_user_orders(st.session_state.current_user['id'])
+    
+    if orders is not None and not orders.empty:
+        st.write(f"**Total Orders:** {len(orders)}")
+        
+        for _, order in orders.iterrows():
+            with st.expander(f"🚀 Order {order['order_id']} - {order['product_name']} → {order['destination_planet']}"):
+                col1, col2 = st.columns([2, 1])
+                
+                with col1:
+                    st.write(f"**Product:** {order['product_name']}")
+                    st.write(f"**Category:** {order['product_category']}")
+                    st.write(f"**Destination:** {order['destination_planet']}")
+                    st.write(f"**Total Price:** {format_price(order['total_price_inr'] / 83)}")
+                    st.write(f"**Space Agency:** {order['space_agency']}")
+                    st.write(f"**Status:** {order['order_status']}")
+                    st.write(f"**Estimated Delivery:** {order['estimated_delivery_time']}")
+                    
+                with col2:
+                    st.write(f"**Tracking:** {order['tracking_number']}")
+                    st.write(f"**Order Date:** {order['created_at'].strftime('%Y-%m-%d')}")
+                    
+                    # Mock status updates
+                    if st.button(f"📍 Track Order", key=f"track_{order['order_id']}"):
+                        st.info("🚀 Package launched from Earth!")
+                        st.info("🛸 Currently somewhere in the asteroid belt...")
+                        st.warning("⚠️ Minor delay due to space pirates")
+                        st.success("📡 ETA updated: Still very, very long!")
+    else:
+        st.info("📦 No orders found. Start shopping across the galaxy!")
+        
+        # Show some product recommendations
+        st.subheader("🛍️ Recommended Products")
+        recommended_products = random.sample(st.session_state.products, 3)
+        
+        cols = st.columns(3)
+        for i, product in enumerate(recommended_products):
+            with cols[i]:
+                st.write(f"**{product['emoji']} {product['name']}**")
+                st.write(f"{format_price(product['base_price'])}")
+                st.write(f"*{product['category']}*")
 
 if __name__ == "__main__":
     main()

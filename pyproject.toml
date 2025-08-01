@@ -5,5 +5,8 @@ description = "Add your description here"
 requires-python = ">=3.11"
 dependencies = [
     "google-genai>=1.28.0",
+    "pandas>=2.3.1",
+    "psycopg2-binary>=2.9.10",
+    "sift-stack-py>=0.8.1",
     "streamlit>=1.47.1",
 ]

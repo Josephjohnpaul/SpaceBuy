@@ -20,6 +20,7 @@ Currency preference: Indian Rupees (₹) - All pricing converted from USD at rat
 ### Backend Architecture
 - **Core Logic**: Python-based modular architecture with separated concerns
 - **Data Layer**: Mock data generation for products, planets, and space agencies stored in dedicated modules
+- **Database Layer**: PostgreSQL database with user management, order tracking, analytics, and search history
 - **Pricing Engine**: AI-powered dynamic pricing system using Google's Gemini AI
 - **Utility Functions**: Mathematical calculations for delivery costs based on planetary physics
 
@@ -33,6 +34,9 @@ Currency preference: Indian Rupees (₹) - All pricing converted from USD at rat
 - **Product Catalog**: Static product definitions with categories, base prices, and descriptions
 - **Planetary Database**: Comprehensive planet characteristics including distance, gravity, atmosphere, and delivery difficulty scores
 - **Cost Calculation**: Mathematical models incorporating exponential distance factors, gravity deviations, atmospheric hazards, and market volatility
+- **User Management**: PostgreSQL-based user accounts with loyalty levels and spending tracking
+- **Order Processing**: Complete order lifecycle from creation to tracking with delivery status
+- **Analytics System**: Real-time dashboard with sales metrics, planet performance, and customer insights
 
 ### Pricing Strategy
 - **Base Pricing**: Earth retail prices as foundation
