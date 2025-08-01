@@ -58,45 +58,53 @@ def calculate_delivery_cost(base_price, planet_info):
 
 def format_price(price):
     """
-    Format price as currency with appropriate formatting for large numbers
+    Format price as currency in Indian Rupees with appropriate formatting for large numbers
     """
-    if price >= 1_000_000_000:  # Billions
-        return f"${price:,.0f} (💸 BANKRUPTCY LEVEL)"
-    elif price >= 1_000_000:  # Millions
-        return f"${price:,.0f} (🏠 MORTGAGE YOUR HOUSE)"
-    elif price >= 100_000:  # Hundreds of thousands
-        return f"${price:,.0f} (🚗 SELL YOUR CAR)"
-    elif price >= 10_000:  # Tens of thousands
-        return f"${price:,.2f} (💳 MAX OUT CREDIT CARDS)"
-    elif price >= 1_000:  # Thousands
-        return f"${price:,.2f} (💰 EXPENSIVE)"
+    # Convert USD to INR (approximate rate: 1 USD = 83 INR)
+    inr_price = price * 83
+    
+    if inr_price >= 100_000_000_000:  # 100+ Billion INR
+        return f"₹{inr_price:,.0f} (💸 BANKRUPTCY LEVEL)"
+    elif inr_price >= 10_000_000_000:  # 10+ Billion INR
+        return f"₹{inr_price/10_000_000:.1f} Cr (🏠 MORTGAGE YOUR HOUSE)"
+    elif inr_price >= 100_000_000:  # 10+ Crore INR
+        return f"₹{inr_price/10_000_000:.1f} Cr (🚗 SELL YOUR CAR)"
+    elif inr_price >= 10_000_000:  # 1+ Crore INR
+        return f"₹{inr_price/10_000_000:.2f} Cr (💳 MAX OUT CREDIT CARDS)"
+    elif inr_price >= 100_000:  # 1+ Lakh INR
+        return f"₹{inr_price/100_000:.1f} L (💰 EXPENSIVE)"
+    elif inr_price >= 1_000:  # Thousands INR
+        return f"₹{inr_price:,.0f}"
     else:
-        return f"${price:,.2f}"
+        return f"₹{inr_price:,.2f}"
 
 def get_shipping_humor(planet_name, delivery_cost):
     """
     Generate humorous shipping messages based on cost and destination
     """
-    if delivery_cost > 1_000_000:
+    # Convert to INR for comparison
+    inr_cost = delivery_cost * 83
+    
+    if inr_cost > 83_000_000:  # 83M INR (1M USD)
         messages = [
             f"🚀 Shipping to {planet_name}: More expensive than a small nation's GDP!",
             f"💸 Fun fact: You could buy a private island instead of shipping to {planet_name}!",
             f"🏦 Your bank called - they want to discuss your {planet_name} shopping addiction.",
             f"⭐ Congratulations! You've unlocked the 'Cosmic Spender' achievement!"
         ]
-    elif delivery_cost > 100_000:
+    elif inr_cost > 8_300_000:  # 83L INR (100K USD)
         messages = [
-            f"🎯 Shipping to {planet_name}: Costs more than most people's cars!",
+            f"🎯 Shipping to {planet_name}: Costs more than most luxury cars in India!",
             f"📈 Investment tip: SpaceBuy stock goes up every time someone ships to {planet_name}!",
-            f"🎓 You could get a college degree for less than this shipping cost!",
-            f"🏠 Alternatively, you could use this money as a house down payment on Earth!"
+            f"🎓 You could fund multiple engineering degrees for this shipping cost!",
+            f"🏠 Alternatively, you could buy a nice flat in Mumbai for this price!"
         ]
-    elif delivery_cost > 10_000:
+    elif inr_cost > 830_000:  # 8.3L INR (10K USD)
         messages = [
             f"💰 Shipping to {planet_name}: Expensive enough to make you question your priorities!",
-            f"🎪 For this price, we could hire a circus to deliver your package!",
+            f"🎪 For this price, we could hire a Bollywood dance troupe to deliver your package!",
             f"📱 You could buy 10 iPhones instead of paying this shipping cost!",
-            f"🚁 We could probably helicopter your package around Earth 50 times for this price!"
+            f"🛺 We could probably auto-rickshaw your package around India 1000 times for this price!"
         ]
     else:
         messages = [

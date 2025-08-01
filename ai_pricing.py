@@ -17,7 +17,7 @@ def get_ai_pricing(product_name, planet_info):
     """
     try:
         prompt = f"""
-        You are a cosmic pricing expert for SpaceBuy, an interplanetary e-commerce platform.
+        You are a cosmic pricing expert for SpaceBuy, an interplanetary e-commerce platform serving Indian customers.
         
         Calculate a realistic price for "{product_name}" to be delivered to a planet with these characteristics:
         - Distance from Earth: {planet_info['distance']} AU
@@ -26,7 +26,7 @@ def get_ai_pricing(product_name, planet_info):
         - Delivery Difficulty: {planet_info['delivery_difficulty']}/10
         
         Consider factors like:
-        1. Base Earth retail price for this product
+        1. Base Earth retail price for this product in USD
         2. Shipping complexity based on distance and conditions
         3. Special handling requirements for the atmosphere/gravity
         4. Insurance costs for high-risk deliveries
@@ -36,10 +36,10 @@ def get_ai_pricing(product_name, planet_info):
         {{
             "base_price": [estimated Earth price in USD],
             "multiplier": [price multiplier for this planet, between 2x and 50x],
-            "reasoning": "[funny but logical explanation for the pricing]"
+            "reasoning": "[funny but logical explanation for the pricing, with some Indian context or references]"
         }}
         
-        Make the reasoning humorous but scientifically plausible. Be creative!
+        Make the reasoning humorous but scientifically plausible. Include some Indian references for relatability. Be creative!
         """
         
         response = client.models.generate_content(

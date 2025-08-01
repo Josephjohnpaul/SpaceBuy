@@ -58,8 +58,9 @@ if 'space_agencies' not in st.session_state:
 
 def main():
     # Header
-    st.markdown('<h1 class="main-header">🚀 SpaceBuy</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">🚀 SpaceBuy India</h1>', unsafe_allow_html=True)
     st.markdown("### *The Galaxy's Most Expensive Delivery Service* ⭐")
+    st.markdown("*All prices in Indian Rupees (₹)*")
     
     # Sidebar
     st.sidebar.title("🌌 Navigation")
@@ -297,8 +298,21 @@ def price_comparison():
         st.subheader(f"💰 Price Comparison for {selected_product}")
         st.dataframe(df, use_container_width=True)
         
-        # Find cheapest and most expensive
-        prices = [float(row['Total Price'].replace('$', '').replace(',', '')) for row in comparison_data]
+        # Find cheapest and most expensive (extract numeric values from INR format)
+        prices = []
+        for row in comparison_data:
+            price_str = row['Total Price']
+            # Extract numeric value from various INR formats
+            if 'Cr' in price_str:
+                numeric_part = float(price_str.split('₹')[1].split(' Cr')[0])
+                prices.append(numeric_part * 10_000_000)  # Convert crores to actual INR
+            elif 'L' in price_str:
+                numeric_part = float(price_str.split('₹')[1].split(' L')[0])
+                prices.append(numeric_part * 100_000)  # Convert lakhs to actual INR
+            else:
+                # Regular INR amount
+                numeric_part = float(price_str.replace('₹', '').replace(',', ''))
+                prices.append(numeric_part)
         cheapest_idx = prices.index(min(prices))
         expensive_idx = prices.index(max(prices))
         
@@ -311,7 +325,9 @@ def price_comparison():
         # Show savings
         savings = prices[expensive_idx] - prices[cheapest_idx]
         if savings > 0:
-            st.info(f"💡 You could save {format_price(savings)} by choosing {comparison_data[cheapest_idx]['Planet']} over {comparison_data[expensive_idx]['Planet']}!")
+            # Convert INR savings back to USD equivalent for format_price function
+            savings_usd = savings / 83
+            st.info(f"💡 You could save {format_price(savings_usd)} by choosing {comparison_data[cheapest_idx]['Planet']} over {comparison_data[expensive_idx]['Planet']}!")
             st.write("*Note: Savings calculated before accounting for the emotional cost of living on an alien planet.*")
 
 def contact_and_careers():

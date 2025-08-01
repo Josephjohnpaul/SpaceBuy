@@ -7,6 +7,7 @@ SpaceBuy is an AI-powered interplanetary e-commerce platform that enables custom
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Currency preference: Indian Rupees (₹) - All pricing converted from USD at rate of 1 USD = 83 INR.
 
 ## System Architecture
 
