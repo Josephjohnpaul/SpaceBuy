@@ -10,35 +10,35 @@ def get_products():
             'emoji': '📱',
             'description': 'Latest smartphone with space-grade aluminum. Warning: May not work in vacuum of space.',
             'category': 'Electronics',
-            'base_price': 1199.99
+            'base_price': 4999.99
         },
         {
             'name': 'Tesla Model S Plaid',
             'emoji': '🚗',
             'description': 'Electric vehicle adapted for planetary surfaces. Includes magnetic wheels for low-gravity environments.',
             'category': 'Vehicles',
-            'base_price': 89990.00
+            'base_price': 299990.00
         },
         {
             'name': 'Starbucks Venti Latte',
             'emoji': '☕',
             'description': 'Premium coffee beverage. May freeze instantly in space. Warming systems sold separately.',
             'category': 'Food & Beverages',
-            'base_price': 5.95
+            'base_price': 49.95
         },
         {
             'name': 'Nintendo Switch OLED',
             'emoji': '🎮',
             'description': 'Portable gaming console. Perfect for long space journeys. Battery life: 3 hours or 3 light-years.',
             'category': 'Electronics',
-            'base_price': 349.99
+            'base_price': 1299.99
         },
         {
             'name': 'MacBook Pro M3',
             'emoji': '💻',
             'description': 'High-performance laptop with space-resistant screen. Cosmic ray damage not covered by warranty.',
             'category': 'Electronics',
-            'base_price': 2399.99
+            'base_price': 8999.99
         },
         {
             'name': 'Air Jordan 4 Retro',
@@ -52,14 +52,14 @@ def get_products():
             'emoji': '🍕',
             'description': 'Hot and fresh pizza. Delivered hot or your money back! (Heat retention in space not guaranteed)',
             'category': 'Food & Beverages',
-            'base_price': 15.99
+            'base_price': 89.99
         },
         {
             'name': 'IKEA Billy Bookshelf',
             'emoji': '📚',
             'description': 'Self-assembly furniture. Assembly instructions translated into 47 alien languages. Allen key included.',
             'category': 'Home & Garden',
-            'base_price': 49.99
+            'base_price': 299.99
         },
         {
             'name': 'Rolex Submariner',
@@ -283,6 +283,30 @@ def get_planet_exclusive_products():
                 'category': 'Souvenirs',
                 'base_price': 35.00,
                 'exclusive_to': 'Mars'
+            },
+            {
+                'name': 'Martian Sand Hourglass',
+                'emoji': '⏳',
+                'description': 'Genuine red sand from the Martian desert. Tells time in Martian days (24h 37min).',
+                'category': 'Home Decor',
+                'base_price': 65.00,
+                'exclusive_to': 'Mars'
+            },
+            {
+                'name': 'Rover Tire Treads Shoes',
+                'emoji': '👟',
+                'description': 'Footwear with actual rover tire patterns. Leave tracks like Curiosity!',
+                'category': 'Fashion',
+                'base_price': 120.00,
+                'exclusive_to': 'Mars'
+            },
+            {
+                'name': 'Dehydrated Martian Water',
+                'emoji': '💧',
+                'description': 'Just add... water? The most expensive nothing you\'ll ever buy!',
+                'category': 'Food & Beverages',
+                'base_price': 199.99,
+                'exclusive_to': 'Mars'
             }
         ],
         'Jupiter': [
@@ -308,6 +332,30 @@ def get_planet_exclusive_products():
                 'description': 'Eau de hydrogen and helium. Lighter than air, heavier than your wallet.',
                 'category': 'Beauty & Personal Care',
                 'base_price': 75.00,
+                'exclusive_to': 'Jupiter'
+            },
+            {
+                'name': 'Great Red Spot Mood Ring',
+                'emoji': '💍',
+                'description': 'Changes color based on Jupiter\'s storm intensity. Currently stuck on "apocalyptic red".',
+                'category': 'Fashion Accessories',
+                'base_price': 450.00,
+                'exclusive_to': 'Jupiter'
+            },
+            {
+                'name': 'Moon-Jumping Boots (Set of 4)',
+                'emoji': '🥾',
+                'description': 'Hop between Jupiter\'s 95 moons! Io to Europa in one giant leap!',
+                'category': 'Transportation',
+                'base_price': 850.00,
+                'exclusive_to': 'Jupiter'
+            },
+            {
+                'name': 'Radiation-Proof Sunglasses',
+                'emoji': '🕶️',
+                'description': 'Essential eyewear for Jupiter\'s intense radiation belts. Style meets survival!',
+                'category': 'Safety Equipment',
+                'base_price': 220.00,
                 'exclusive_to': 'Jupiter'
             }
         ],

@@ -20,33 +20,15 @@
         <nav class="navigation">
             <div class="nav-buttons">
                 <button class="nav-btn active" data-page="browse">🛒 Browse Products</button>
+                <button class="nav-btn" data-page="exclusives">⭐ Planet Exclusives</button>
                 <button class="nav-btn" data-page="search">🔍 AI Product Search</button>
                 <button class="nav-btn" data-page="comparison">⚖️ Price Comparison</button>
-                <button class="nav-btn" data-page="analytics">📊 Analytics Dashboard</button>
                 <button class="nav-btn" data-page="orders">📦 My Orders</button>
                 <button class="nav-btn" data-page="contact">📞 Contact & Careers</button>
             </div>
         </nav>
 
-        <!-- User Login Section -->
-        <div class="user-section">
-            <div id="login-form" class="login-form">
-                <h3>👨‍🚀 Customer Login</h3>
-                <form id="loginForm">
-                    <input type="text" id="name" placeholder="Name" required>
-                    <input type="email" id="email" placeholder="Email" required>
-                    <select id="planet-pref">
-                        <option value="">Select Favorite Planet</option>
-                    </select>
-                    <button type="submit">🚀 Join SpaceBuy</button>
-                </form>
-            </div>
-            <div id="user-info" class="user-info" style="display: none;">
-                <span id="user-greeting"></span>
-                <span id="user-loyalty"></span>
-                <button id="logout-btn">🚪 Logout</button>
-            </div>
-        </div>
+        <!-- User is automatically logged in as "Space Explorer" for entertainment purposes -->
 
         <!-- Main Content Area -->
         <main class="main-content">
@@ -120,27 +102,78 @@
                 <div id="search-results"></div>
             </div>
 
-            <!-- Other pages placeholders -->
-            <div id="comparison-page" class="page">
-                <h2>⚖️ Price Comparison</h2>
-                <p>Compare prices across different planets (Coming Soon!)</p>
+            <!-- Planet Exclusives Page -->
+            <div id="exclusives-page" class="page">
+                <h2>⭐ Planet Exclusive Products</h2>
+                <p>Discover unique items available only on specific planets!</p>
+                
+                <div class="planet-exclusives-selector">
+                    <label for="exclusive-planet">🪐 Select planet to explore:</label>
+                    <select id="exclusive-planet">
+                        <option value="">Choose a planet...</option>
+                    </select>
+                </div>
+                
+                <div id="exclusives-content">
+                    <p>Select a planet to see its exclusive products!</p>
+                </div>
             </div>
 
-            <div id="analytics-page" class="page">
-                <h2>📊 Analytics Dashboard</h2>
-                <p>Sales metrics and insights (Coming Soon!)</p>
+            <!-- Price Comparison Page -->
+            <div id="comparison-page" class="page">
+                <h2>⚖️ Price Comparison Tool</h2>
+                <p>Compare the astronomical costs across different planets!</p>
+                
+                <div class="comparison-form">
+                    <input type="text" id="compare-product" placeholder="Enter product name (e.g., iPhone, Pizza)">
+                    <button id="compare-btn">🚀 Compare Prices Across Galaxy!</button>
+                </div>
+                
+                <div id="comparison-results"></div>
             </div>
 
             <div id="orders-page" class="page">
                 <h2>📦 My Orders</h2>
                 <div id="orders-list">
-                    <p>Please login to view your orders.</p>
+                    <p>Your interplanetary shopping history will appear here!</p>
                 </div>
             </div>
 
             <div id="contact-page" class="page">
                 <h2>📞 Contact & Careers</h2>
-                <p>Get in touch with SpaceBuy (Coming Soon!)</p>
+                <div class="careers-section">
+                    <h3>🚀 Join Our Intergalactic Team!</h3>
+                    <p>Ready to work in the most dangerous delivery service in the galaxy?</p>
+                    
+                    <div class="job-application">
+                        <h4>Application Form</h4>
+                        <form id="careerForm">
+                            <input type="text" id="applicant-name" placeholder="Your Name" required>
+                            <input type="email" id="applicant-email" placeholder="Email" required>
+                            <select id="position" required>
+                                <option value="">Select Position</option>
+                                <option value="sun-delivery">☀️ Sun Delivery Specialist (High Risk)</option>
+                                <option value="jupiter-pilot">🪐 Jupiter Storm Navigator</option>
+                                <option value="mars-courier">🔴 Mars Desert Runner</option>
+                                <option value="asteroid-dodger">☄️ Asteroid Belt Dodger</option>
+                                <option value="pluto-explorer">🧊 Pluto Ice Breaker</option>
+                                <option value="ceo">👑 CEO (Why not dream big?)</option>
+                            </select>
+                            <textarea id="why-hire" placeholder="Why should we hire you? (Warning: Survival not guaranteed)" rows="4"></textarea>
+                            <div class="checkbox-group">
+                                <label>
+                                    <input type="checkbox" id="life-insurance" required>
+                                    I understand that life insurance is not provided
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="heat-resistant" required>
+                                    I am heat resistant (for Sun deliveries)
+                                </label>
+                            </div>
+                            <button type="submit">🚀 Apply Now!</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </main>
 
