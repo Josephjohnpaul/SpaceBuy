@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 SpaceBuy - Interplanetary E-Commerce</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="main-header">
+            <h1>🚀 SpaceBuy India</h1>
+            <p class="subtitle">The Galaxy's Most Expensive Delivery Service ⭐</p>
+            <p class="currency-note">All prices in Indian Rupees (₹)</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="navigation">
+            <div class="nav-buttons">
+                <button class="nav-btn active" data-page="browse">🛒 Browse Products</button>
+                <button class="nav-btn" data-page="search">🔍 AI Product Search</button>
+                <button class="nav-btn" data-page="comparison">⚖️ Price Comparison</button>
+                <button class="nav-btn" data-page="analytics">📊 Analytics Dashboard</button>
+                <button class="nav-btn" data-page="orders">📦 My Orders</button>
+                <button class="nav-btn" data-page="contact">📞 Contact & Careers</button>
+            </div>
+        </nav>
+
+        <!-- User Login Section -->
+        <div class="user-section">
+            <div id="login-form" class="login-form">
+                <h3>👨‍🚀 Customer Login</h3>
+                <form id="loginForm">
+                    <input type="text" id="name" placeholder="Name" required>
+                    <input type="email" id="email" placeholder="Email" required>
+                    <select id="planet-pref">
+                        <option value="">Select Favorite Planet</option>
+                    </select>
+                    <button type="submit">🚀 Join SpaceBuy</button>
+                </form>
+            </div>
+            <div id="user-info" class="user-info" style="display: none;">
+                <span id="user-greeting"></span>
+                <span id="user-loyalty"></span>
+                <button id="logout-btn">🚪 Logout</button>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Browse Products Page -->
+            <div id="browse-page" class="page active">
+                <h2>🛒 Interplanetary Product Catalog</h2>
+                
+                <div class="controls">
+                    <div class="planet-selector">
+                        <label for="destination-planet">🪐 Select destination planet:</label>
+                        <select id="destination-planet">
+                        </select>
+                        <div class="planet-info">
+                            <span id="planet-distance"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="filters">
+                        <select id="category-filter">
+                            <option value="All">All Categories</option>
+                        </select>
+                        <select id="price-range">
+                            <option value="Cheap">Cheap</option>
+                            <option value="Expensive" selected>Expensive</option>
+                            <option value="Bankruptcy">Bankruptcy</option>
+                            <option value="Sell Your Soul">Sell Your Soul</option>
+                        </select>
+                        <select id="agency-filter">
+                            <option value="All">All Agencies</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="sun-warning" class="hiring-notice" style="display: none;">
+                    <h2>⚠️ HOLD UP THERE, HOTSHOT! ⚠️</h2>
+                    <p><strong>How are you still alive there?!</strong> 🔥</p>
+                    <p>None of our delivery employees have ever returned from Sun deliveries...</p>
+                    <p><strong>🚨 URGENT: Are you interested in joining our team? 🚨</strong></p>
+                    <p>We desperately need heat-resistant delivery personnel!</p>
+                    <button id="sun-job-btn">🔥 YES! I WANT TO WORK ON THE SUN! 🔥</button>
+                </div>
+
+                <div id="products-container">
+                    <div id="earth-products">
+                        <h3 id="earth-products-title">🌍 Earth Products</h3>
+                        <p>Shipped from Earth (expensive due to interplanetary logistics)</p>
+                        <div id="earth-products-list"></div>
+                    </div>
+                    
+                    <div id="exclusive-products" style="display: none;">
+                        <hr>
+                        <h3 id="exclusive-products-title">⭐ Planet Exclusive Products</h3>
+                        <p>Locally sourced items available only on this planet (cheaper due to no interplanetary shipping!)</p>
+                        <div id="exclusive-products-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Search Page -->
+            <div id="search-page" class="page">
+                <h2>🔍 AI-Powered Interplanetary Product Search</h2>
+                <p>Ask our AI about any Earth product and get pricing for any planet!</p>
+                
+                <div class="search-form">
+                    <input type="text" id="product-query" placeholder="e.g., iPhone 15, Tesla Model S, Pizza...">
+                    <select id="target-planet">
+                    </select>
+                    <button id="search-btn">🚀 Get Interplanetary Pricing!</button>
+                </div>
+                
+                <div id="search-results"></div>
+            </div>
+
+            <!-- Other pages placeholders -->
+            <div id="comparison-page" class="page">
+                <h2>⚖️ Price Comparison</h2>
+                <p>Compare prices across different planets (Coming Soon!)</p>
+            </div>
+
+            <div id="analytics-page" class="page">
+                <h2>📊 Analytics Dashboard</h2>
+                <p>Sales metrics and insights (Coming Soon!)</p>
+            </div>
+
+            <div id="orders-page" class="page">
+                <h2>📦 My Orders</h2>
+                <div id="orders-list">
+                    <p>Please login to view your orders.</p>
+                </div>
+            </div>
+
+            <div id="contact-page" class="page">
+                <h2>📞 Contact & Careers</h2>
+                <p>Get in touch with SpaceBuy (Coming Soon!)</p>
+            </div>
+        </main>
+
+        <!-- Loading spinner -->
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+
+        <!-- Notification area -->
+        <div id="notifications" class="notifications"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
