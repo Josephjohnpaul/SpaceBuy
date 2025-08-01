@@ -28,10 +28,12 @@ def index():
     """Serve the main HTML page"""
     return send_file('static/index.html')
 
-@app.route('/static/<path:filename>')
+@app.route('/<path:filename>')
 def static_files(filename):
     """Serve static files (CSS, JS, images)"""
-    return send_from_directory('static', filename)
+    if filename in ['styles.css', 'script.js', 'favicon.ico']:
+        return send_from_directory('static', filename)
+    return send_file('static/index.html')
 
 # API Routes
 @app.route('/api/products')

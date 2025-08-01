@@ -561,11 +561,58 @@ class SpaceBuy {
         notification.className = `notification ${type}`;
         notification.innerHTML = message;
         
+        // Add click to dismiss
+        notification.addEventListener('click', () => {
+            notification.style.transform = 'translateX(100%)';
+            notification.style.opacity = '0';
+            setTimeout(() => notification.remove(), 300);
+        });
+        
         document.getElementById('notifications').appendChild(notification);
         
+        // Auto dismiss
         setTimeout(() => {
-            notification.remove();
+            if (notification.parentNode) {
+                notification.style.transform = 'translateX(100%)';
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }
         }, duration);
+        
+        // Success notification effects
+        if (type === 'success') {
+            // Add some celebration particles
+            this.createParticles(5);
+        }
+    }
+    
+    createParticles(count) {
+        for (let i = 0; i < count; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.cssText = `
+                position: fixed;
+                width: 6px;
+                height: 6px;
+                background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 1002;
+                top: 50%;
+                left: 50%;
+                animation: particle-float 2s ease-out forwards;
+            `;
+            
+            document.body.appendChild(particle);
+            
+            // Random direction and remove after animation
+            const angle = (Math.PI * 2 * i) / count;
+            const velocity = 100 + Math.random() * 50;
+            particle.style.setProperty('--dx', `${Math.cos(angle) * velocity}px`);
+            particle.style.setProperty('--dy', `${Math.sin(angle) * velocity}px`);
+            
+            setTimeout(() => particle.remove(), 2000);
+        }
     }
 }
 
