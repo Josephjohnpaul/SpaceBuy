@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from data import get_products, get_planets, get_space_agencies
+from data import get_products, get_planets, get_space_agencies, get_planet_exclusive_products
 from ai_pricing import get_ai_pricing, generate_product_description
 from utils import calculate_delivery_cost, format_price, generate_tracking_number, calculate_estimated_delivery_time
 import db_utils
@@ -57,6 +57,8 @@ if 'planets' not in st.session_state:
     st.session_state.planets = get_planets()
 if 'space_agencies' not in st.session_state:
     st.session_state.space_agencies = get_space_agencies()
+if 'planet_exclusive_products' not in st.session_state:
+    st.session_state.planet_exclusive_products = get_planet_exclusive_products()
 if 'user_session' not in st.session_state:
     st.session_state.user_session = str(uuid.uuid4())
 if 'current_user' not in st.session_state:
@@ -176,8 +178,9 @@ def browse_products():
     if category_filter != "All":
         filtered_products = [p for p in filtered_products if p['category'] == category_filter]
     
-    # Display products
-    st.subheader(f"🛍️ Products for {selected_planet}")
+    # Display Earth products
+    st.subheader(f"🌍 Earth Products for {selected_planet}")
+    st.write("*Shipped from Earth (expensive due to interplanetary logistics)*")
     
     for product in filtered_products:
         with st.expander(f"{product['emoji']} {product['name']} - {format_price(product['base_price'])}"):
@@ -233,6 +236,61 @@ def browse_products():
                 
                 if st.button(f"📊 Cost Breakdown", key=f"breakdown_{product['name']}_{selected_planet}"):
                     show_cost_breakdown(product, planet_info, delivery_cost)
+    
+    # Display planet-exclusive products
+    if selected_planet in st.session_state.planet_exclusive_products:
+        st.markdown("---")
+        st.subheader(f"⭐ {selected_planet} Exclusive Products")
+        st.write("*Locally sourced items available only on this planet (cheaper due to no interplanetary shipping!)*")
+        
+        exclusive_products = st.session_state.planet_exclusive_products[selected_planet]
+        for product in exclusive_products:
+            with st.expander(f"{product['emoji']} {product['name']} - {format_price(product['base_price'])} ⭐ LOCAL"):
+                col1, col2 = st.columns([2, 1])
+                
+                with col1:
+                    st.write(f"**Description:** {product['description']}")
+                    st.write(f"**Category:** {product['category']}")
+                    st.write(f"**Exclusive to:** {product['exclusive_to']}")
+                    
+                    # For exclusive products, no delivery cost since they're local
+                    local_price = product['base_price']
+                    st.write(f"**Local {selected_planet} Price:** {format_price(local_price)}")
+                    st.success("✨ FREE LOCAL DELIVERY! No interplanetary shipping costs!")
+                    
+                    # Local delivery agency
+                    st.write(f"**Local Delivery by:** {selected_planet} Express Delivery")
+                    st.write(f"**Estimated Delivery:** Same day delivery!")
+                
+                with col2:
+                    if st.button(f"💳 Buy Local for {format_price(local_price)}", key=f"buy_local_{product['name']}_{selected_planet}"):
+                        if st.session_state.current_user:
+                            # Create order in database for exclusive product
+                            tracking_num = generate_tracking_number()
+                            
+                            order_id = db_utils.create_order(
+                                user_id=st.session_state.current_user['id'],
+                                product_name=f"{product['name']} ({selected_planet} Exclusive)",
+                                product_category=product['category'],
+                                destination_planet=selected_planet,
+                                base_price_usd=product['base_price'],
+                                delivery_cost_usd=0.0,  # No delivery cost for local products
+                                total_price_inr=local_price * 83,  # Convert to INR
+                                space_agency=f"{selected_planet} Express",
+                                estimated_delivery_time="Same day",
+                                tracking_number=tracking_num
+                            )
+                            
+                            if order_id:
+                                st.success(f"🎉 Local order placed! Order ID: {order_id}")
+                                st.info(f"📦 Tracking: {tracking_num}")
+                                st.balloons()
+                            else:
+                                st.error("💸 Order failed: Please try again!")
+                        else:
+                            st.warning("🚀 Please login first to place orders!")
+                    
+                    st.info("🏪 **Local Product Benefits:**\n• No shipping costs\n• Same day delivery\n• Authentic local quality\n• Support local economy")
 
 def ai_product_search():
     st.header("🔍 AI-Powered Interplanetary Product Search")

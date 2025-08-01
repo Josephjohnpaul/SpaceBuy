@@ -88,8 +88,334 @@ def get_products():
             'description': 'Powerful vacuum cleaner. Ironically useless in the vacuum of space. Great for spaceship interiors.',
             'category': 'Home & Garden',
             'base_price': 749.99
+        },
+        # Additional Earth Products
+        {
+            'name': 'PlayStation 5 Pro',
+            'emoji': '🎮',
+            'description': 'Next-gen gaming console. Ray tracing works even better with cosmic rays!',
+            'category': 'Electronics',
+            'base_price': 699.99
+        },
+        {
+            'name': 'Samsung Galaxy S24 Ultra',
+            'emoji': '📱',
+            'description': 'Android flagship with S Pen. Perfect for signing interplanetary contracts.',
+            'category': 'Electronics',
+            'base_price': 1299.99
+        },
+        {
+            'name': 'KitchenAid Stand Mixer',
+            'emoji': '🥧',
+            'description': 'Professional mixer. Gravity-adjustable settings for different planets.',
+            'category': 'Home & Garden',
+            'base_price': 449.99
+        },
+        {
+            'name': 'Tata Nano (Classic)',
+            'emoji': '🚙',
+            'description': 'World\'s cheapest car! Still costs more to deliver than to buy.',
+            'category': 'Vehicles',
+            'base_price': 2500.00
+        },
+        {
+            'name': 'Royal Enfield Bullet',
+            'emoji': '🏍️',
+            'description': 'Classic Indian motorcycle. Thump works even in vacuum (sound not included).',
+            'category': 'Vehicles',
+            'base_price': 1800.00
+        },
+        {
+            'name': 'Masala Chai Kit',
+            'emoji': '🫖',
+            'description': 'Authentic Indian tea experience. Includes cardamom, ginger, and homesickness.',
+            'category': 'Food & Beverages',
+            'base_price': 12.99
+        },
+        {
+            'name': 'Biryani (Family Pack)',
+            'emoji': '🍛',
+            'description': 'Hyderabadi biryani for 4 people. Warning: May cause food coma across galaxies.',
+            'category': 'Food & Beverages',
+            'base_price': 25.99
+        },
+        {
+            'name': 'Bollywood Movie Collection',
+            'emoji': '🎬',
+            'description': '100 classic films. Subtitles available in Martian and Venusian.',
+            'category': 'Entertainment',
+            'base_price': 99.99
+        },
+        {
+            'name': 'Yoga Mat (Premium)',
+            'emoji': '🧘',
+            'description': 'Eco-friendly yoga mat. Meditation works better with zero gravity.',
+            'category': 'Health & Fitness',
+            'base_price': 89.99
+        },
+        {
+            'name': 'Saree (Silk)',
+            'emoji': '👗',
+            'description': 'Traditional Indian attire. Flows beautifully in low gravity environments.',
+            'category': 'Fashion',
+            'base_price': 299.99
+        },
+        {
+            'name': 'Cricket Bat (Signed)',
+            'emoji': '🏏',
+            'description': 'Autographed by Virat Kohli. Perfect for space cricket leagues.',
+            'category': 'Sports',
+            'base_price': 499.99
+        },
+        {
+            'name': 'Tabla Set',
+            'emoji': '🥁',
+            'description': 'Classical Indian drums. Sound travels differently in space atmosphere.',
+            'category': 'Music',
+            'base_price': 349.99
+        },
+        {
+            'name': 'Instant Maggi Noodles',
+            'emoji': '🍜',
+            'description': '2-minute noodles (may take longer in different time zones). Taste of home.',
+            'category': 'Food & Beverages',
+            'base_price': 1.99
+        },
+        {
+            'name': 'Gaming Chair (RGB)',
+            'emoji': '🪑',
+            'description': 'Pro gamer chair with LED lights. RGB makes everything faster, even in space.',
+            'category': 'Electronics',
+            'base_price': 299.99
+        },
+        {
+            'name': 'Instant Coffee (3-in-1)',
+            'emoji': '☕',
+            'description': 'Quick caffeine fix. Essential for surviving interplanetary jet lag.',
+            'category': 'Food & Beverages',
+            'base_price': 8.99
+        },
+        {
+            'name': 'Power Bank (50,000mAh)',
+            'emoji': '🔋',
+            'description': 'Massive battery pack. Charges everything except your motivation.',
+            'category': 'Electronics',
+            'base_price': 79.99
         }
     ]
+
+def get_planet_exclusive_products():
+    """Returns planet-exclusive products that are 'locally sourced' and cheaper"""
+    return {
+        'Mercury': [
+            {
+                'name': 'Mercury Solar Crystals',
+                'emoji': '💎',
+                'description': 'Pure energy crystals formed by Mercury\'s extreme solar exposure. Powers small cities!',
+                'category': 'Energy & Resources',
+                'base_price': 50.00,  # Cheaper because it's local
+                'exclusive_to': 'Mercury'
+            },
+            {
+                'name': 'Heat-Resistant Alloy Tools',
+                'emoji': '🔧',
+                'description': 'Tools forged in Mercury\'s volcanic core. Can withstand temperatures of 1000°C.',
+                'category': 'Tools & Equipment',
+                'base_price': 120.00,
+                'exclusive_to': 'Mercury'
+            }
+        ],
+        'Venus': [
+            {
+                'name': 'Venusian Acid-Proof Gear',
+                'emoji': '🥽',
+                'description': 'Local specialty! Protective equipment that laughs at sulfuric acid.',
+                'category': 'Safety Equipment',
+                'base_price': 80.00,
+                'exclusive_to': 'Venus'
+            },
+            {
+                'name': 'Pressure-Forged Diamonds',
+                'emoji': '💍',
+                'description': 'Diamonds created by Venus\'s crushing atmosphere. Harder than Earth diamonds!',
+                'category': 'Luxury Items',
+                'base_price': 200.00,
+                'exclusive_to': 'Venus'
+            },
+            {
+                'name': 'Venus Cloud Perfume',
+                'emoji': '🌸',
+                'description': 'Eau de sulfur dioxide. Surprisingly popular among space hipsters.',
+                'category': 'Beauty & Personal Care',
+                'base_price': 45.00,
+                'exclusive_to': 'Venus'
+            }
+        ],
+        'Mars': [
+            {
+                'name': 'Martian Rust Paint',
+                'emoji': '🎨',
+                'description': 'Authentic red paint made from Mars\' iron oxide. Perfect for that retro Mars look.',
+                'category': 'Art & Crafts',
+                'base_price': 25.00,
+                'exclusive_to': 'Mars'
+            },
+            {
+                'name': 'Low-Gravity Sports Equipment',
+                'emoji': '⚽',
+                'description': 'Sports gear designed for 0.38g. Jump higher, run faster, fall slower!',
+                'category': 'Sports',
+                'base_price': 150.00,
+                'exclusive_to': 'Mars'
+            },
+            {
+                'name': 'Martian Potato Chips',
+                'emoji': '🥔',
+                'description': 'Grown in Martian soil by Matt Damon himself! Now with 30% more radiation.',
+                'category': 'Food & Beverages',
+                'base_price': 8.99,
+                'exclusive_to': 'Mars'
+            },
+            {
+                'name': 'SpaceX Branded Merchandise',
+                'emoji': '🚀',
+                'description': 'Official Martian colony swag. T-shirts, mugs, and "I survived Mars" bumper stickers.',
+                'category': 'Souvenirs',
+                'base_price': 35.00,
+                'exclusive_to': 'Mars'
+            }
+        ],
+        'Jupiter': [
+            {
+                'name': 'Jupiter Storm Energy Collector',
+                'emoji': '⚡',
+                'description': 'Harnesses the power of Jupiter\'s Great Red Spot. Unlimited energy for millennia!',
+                'category': 'Energy & Resources',
+                'base_price': 500.00,
+                'exclusive_to': 'Jupiter'
+            },
+            {
+                'name': 'Anti-Gravity Training Gear',
+                'emoji': '🏋️',
+                'description': 'Exercise equipment designed for 2.36g gravity. Get buff or get crushed!',
+                'category': 'Health & Fitness',
+                'base_price': 300.00,
+                'exclusive_to': 'Jupiter'
+            },
+            {
+                'name': 'Jovian Gas Cologne',
+                'emoji': '💨',
+                'description': 'Eau de hydrogen and helium. Lighter than air, heavier than your wallet.',
+                'category': 'Beauty & Personal Care',
+                'base_price': 75.00,
+                'exclusive_to': 'Jupiter'
+            }
+        ],
+        'Saturn': [
+            {
+                'name': 'Saturn Ring Jewelry Collection',
+                'emoji': '💫',
+                'description': 'Actual pieces of Saturn\'s rings! Each piece is billions of years old.',
+                'category': 'Luxury Items',
+                'base_price': 400.00,
+                'exclusive_to': 'Saturn'
+            },
+            {
+                'name': 'Ice Crystal Decorations',
+                'emoji': '❄️',
+                'description': 'Beautiful ice sculptures from Saturn\'s moons. Guaranteed to not melt in space.',
+                'category': 'Home & Garden',
+                'base_price': 180.00,
+                'exclusive_to': 'Saturn'
+            },
+            {
+                'name': 'Hexagonal Storm Pattern Art',
+                'emoji': '🎭',
+                'description': 'Unique hexagonal art inspired by Saturn\'s polar storm. Geometry has never been cooler.',
+                'category': 'Art & Crafts',
+                'base_price': 95.00,
+                'exclusive_to': 'Saturn'
+            }
+        ],
+        'Uranus': [
+            {
+                'name': 'Sideways Compass',
+                'emoji': '🧭',
+                'description': 'The only compass that works on a sideways planet. Points in directions you never knew existed.',
+                'category': 'Navigation Tools',
+                'base_price': 60.00,
+                'exclusive_to': 'Uranus'
+            },
+            {
+                'name': 'Methane Ice Cubes',
+                'emoji': '🧊',
+                'description': 'Keep your drinks cold for 84 Earth years! Warning: May smell like rotten eggs.',
+                'category': 'Food & Beverages',
+                'base_price': 15.00,
+                'exclusive_to': 'Uranus'
+            },
+            {
+                'name': 'Tilted Architecture Plans',
+                'emoji': '📐',
+                'description': 'Building blueprints designed for a planet that spins on its side. Confusing but functional.',
+                'category': 'Construction & Design',
+                'base_price': 220.00,
+                'exclusive_to': 'Uranus'
+            }
+        ],
+        'Neptune': [
+            {
+                'name': 'Supersonic Wind Instruments',
+                'emoji': '🎺',
+                'description': 'Musical instruments powered by Neptune\'s 2,100 km/h winds. Ear protection included.',
+                'category': 'Music',
+                'base_price': 350.00,
+                'exclusive_to': 'Neptune'
+            },
+            {
+                'name': 'Diamond Rain Umbrella',
+                'emoji': '☂️',
+                'description': 'Protection from Neptune\'s literal diamond rain. Luxury and practicality combined!',
+                'category': 'Weather Protection',
+                'base_price': 800.00,
+                'exclusive_to': 'Neptune'
+            },
+            {
+                'name': 'Deep Blue Meditation Stones',
+                'emoji': '🔵',
+                'description': 'Calming stones infused with Neptune\'s serene blue energy. Inner peace guaranteed.',
+                'category': 'Wellness & Spirituality',
+                'base_price': 125.00,
+                'exclusive_to': 'Neptune'
+            }
+        ],
+        'Pluto': [
+            {
+                'name': 'Former Planet Support Group Kit',
+                'emoji': '😢',
+                'description': 'Emotional support items for dealing with planetary status changes. Includes tissues and therapy.',
+                'category': 'Mental Health',
+                'base_price': 40.00,
+                'exclusive_to': 'Pluto'
+            },
+            {
+                'name': 'Vintage Planetary Classification Certificate',
+                'emoji': '📜',
+                'description': 'Original 1930-2006 planet certificate. A piece of astronomical history!',
+                'category': 'Collectibles',
+                'base_price': 150.00,
+                'exclusive_to': 'Pluto'
+            },
+            {
+                'name': 'Ultra-Cold Storage System',
+                'emoji': '🥶',
+                'description': 'Storage system that keeps things colder than Pluto\'s heart. Perfect for preserving memories.',
+                'category': 'Storage Solutions',
+                'base_price': 275.00,
+                'exclusive_to': 'Pluto'
+            }
+        ]
+    }
 
 def get_planets():
     """Returns information about delivery destinations"""

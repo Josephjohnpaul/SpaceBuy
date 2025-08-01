@@ -31,18 +31,21 @@ Currency preference: Indian Rupees (₹) - All pricing converted from USD at rat
 - **Fallback**: Built-in mock pricing system for scenarios when AI service is unavailable
 
 ### Data Management
-- **Product Catalog**: Static product definitions with categories, base prices, and descriptions
+- **Product Catalog**: Extended catalog with 30+ Earth products across multiple categories (Electronics, Vehicles, Food & Beverages, Fashion, Home & Garden, Entertainment, Sports, Music)
+- **Planet-Exclusive Products**: Unique items available only on specific planets with local delivery and reduced costs (20+ exclusive items across all planets)
 - **Planetary Database**: Comprehensive planet characteristics including distance, gravity, atmosphere, and delivery difficulty scores
 - **Cost Calculation**: Mathematical models incorporating exponential distance factors, gravity deviations, atmospheric hazards, and market volatility
 - **User Management**: PostgreSQL-based user accounts with loyalty levels and spending tracking
-- **Order Processing**: Complete order lifecycle from creation to tracking with delivery status
+- **Order Processing**: Complete order lifecycle from creation to tracking with delivery status (supports both Earth and planet-exclusive products)
 - **Analytics System**: Real-time dashboard with sales metrics, planet performance, and customer insights
 
 ### Pricing Strategy
-- **Base Pricing**: Earth retail prices as foundation
-- **Dynamic Multipliers**: AI-generated multipliers (2x to 50x) based on delivery complexity
-- **Cost Components**: Product price, shipping complexity, special handling, insurance, and fuel costs
-- **Market Simulation**: Random volatility factors to simulate realistic market conditions
+- **Base Pricing**: Earth retail prices as foundation with significantly inflated delivery costs (500% base + exponential scaling)
+- **Dynamic Multipliers**: AI-generated multipliers (50x to 1000x) for extreme pricing to emphasize "useless" delivery costs
+- **Planet-Exclusive Pricing**: Local products with no interplanetary shipping costs, making them affordable alternatives
+- **Cost Components**: Product price, massive shipping complexity, special handling, insurance, fuel costs, and astronomical market volatility (2x-8x)
+- **Distance Penalties**: Squared distance factors and additional penalties for outer planets beyond Jupiter
+- **Atmosphere Multipliers**: Extreme penalties (up to 200x for plasma environments) and special handling costs
 
 ## External Dependencies
 
