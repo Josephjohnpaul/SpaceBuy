@@ -14,14 +14,14 @@ def calculate_delivery_cost(base_price, planet_info):
     gravity_factor = abs(planet_info['gravity'] - 1.0) + 1.0  # Deviation from Earth gravity
     difficulty_factor = planet_info['delivery_difficulty'] / 10.0
     
-    # Special atmosphere considerations
+    # Special atmosphere considerations - much more extreme
     atmosphere_multipliers = {
-        'None': 2.5,  # Need life support
-        'Toxic': 4.0,  # Hazmat protocols
-        'Thin': 1.8,  # Partial life support
-        'Dense': 3.0,  # Pressure suits
-        'Icy': 2.2,   # Heating systems
-        'Plasma': 10.0  # Impossible but we'll try
+        'None': 25.0,  # Need complete life support systems
+        'Toxic': 50.0,  # Hazmat protocols and medical insurance
+        'Thin': 15.0,  # Partial life support and pressurization
+        'Dense': 40.0,  # Heavy-duty pressure suits and reinforcement
+        'Icy': 30.0,   # Industrial heating systems and thermal protection
+        'Plasma': 200.0  # Completely impossible but we'll charge anyway
     }
     
     atmosphere_key = 'None'  # Default
@@ -32,27 +32,31 @@ def calculate_delivery_cost(base_price, planet_info):
     
     atmosphere_factor = atmosphere_multipliers[atmosphere_key]
     
-    # Calculate base delivery cost
-    base_delivery = base_price * 0.5  # Start with 50% of product price
+    # Calculate base delivery cost - start much higher
+    base_delivery = base_price * 5.0  # Start with 500% of product price
     
-    # Apply all factors
+    # Apply all factors with much higher multipliers
     delivery_cost = (base_delivery * 
-                    distance_factor * 
-                    gravity_factor * 
-                    difficulty_factor * 
-                    atmosphere_factor)
+                    (distance_factor ** 2) *  # Square the distance impact
+                    (gravity_factor ** 1.5) * 
+                    (difficulty_factor ** 2) * 
+                    (atmosphere_factor ** 1.5))
     
-    # Add some randomness for "market conditions"
-    market_volatility = random.uniform(0.8, 1.3)
+    # Add massive randomness for "market conditions"
+    market_volatility = random.uniform(2.0, 8.0)  # Much higher volatility
     delivery_cost *= market_volatility
     
-    # Minimum delivery cost (even to the Moon costs something)
-    minimum_delivery = base_price * 0.1
+    # Much higher minimum delivery cost
+    minimum_delivery = base_price * 10.0  # Even Moon delivery is 10x product price
     delivery_cost = max(delivery_cost, minimum_delivery)
     
-    # Special case for Sun - astronomical costs
+    # Special case for Sun - absolutely insane costs
     if 'sun' in planet_info.get('fun_fact', '').lower() or planet_info.get('delivery_difficulty', 0) >= 10:
-        delivery_cost *= 50  # Because it's literally the Sun
+        delivery_cost *= 500  # Because it's literally the Sun
+    
+    # Additional distance penalties for outer planets
+    if planet_info['distance'] > 10:  # Beyond Jupiter
+        delivery_cost *= (planet_info['distance'] * 2)  # Distance penalty multiplier
     
     return round(delivery_cost, 2)
 
@@ -63,14 +67,24 @@ def format_price(price):
     # Convert USD to INR (approximate rate: 1 USD = 83 INR)
     inr_price = price * 83
     
-    if inr_price >= 100_000_000_000:  # 100+ Billion INR
-        return f"₹{inr_price:,.0f} (💸 BANKRUPTCY LEVEL)"
+    if inr_price >= 100_000_000_000_000:  # 100+ Trillion INR
+        return f"₹{inr_price/1_000_000_000_000:.0f} Trillion (🌌 NATIONAL GDP LEVEL)"
+    elif inr_price >= 10_000_000_000_000:  # 10+ Trillion INR
+        return f"₹{inr_price/1_000_000_000_000:.1f} Trillion (🏛️ BUY A COUNTRY)"
+    elif inr_price >= 1_000_000_000_000:  # 1+ Trillion INR
+        return f"₹{inr_price/1_000_000_000_000:.2f} Trillion (🚀 SPACE PROGRAM BUDGET)"
+    elif inr_price >= 100_000_000_000:  # 100+ Billion INR
+        return f"₹{inr_price/10_000_000:.0f} Cr (💸 ECONOMIC COLLAPSE LEVEL)"
     elif inr_price >= 10_000_000_000:  # 10+ Billion INR
-        return f"₹{inr_price/10_000_000:.1f} Cr (🏠 MORTGAGE YOUR HOUSE)"
+        return f"₹{inr_price/10_000_000:.0f} Cr (🏭 INDUSTRIAL EMPIRE)"
+    elif inr_price >= 1_000_000_000:  # 1+ Billion INR
+        return f"₹{inr_price/10_000_000:.1f} Cr (🏰 BILLIONAIRE STATUS)"
     elif inr_price >= 100_000_000:  # 10+ Crore INR
-        return f"₹{inr_price/10_000_000:.1f} Cr (🚗 SELL YOUR CAR)"
+        return f"₹{inr_price/10_000_000:.1f} Cr (🏠 LUXURY MANSION)"
     elif inr_price >= 10_000_000:  # 1+ Crore INR
-        return f"₹{inr_price/10_000_000:.2f} Cr (💳 MAX OUT CREDIT CARDS)"
+        return f"₹{inr_price/10_000_000:.2f} Cr (🚗 FERRARI COLLECTION)"
+    elif inr_price >= 1_000_000:  # 10+ Lakh INR
+        return f"₹{inr_price/100_000:.1f} L (💎 DIAMOND JEWELRY)"
     elif inr_price >= 100_000:  # 1+ Lakh INR
         return f"₹{inr_price/100_000:.1f} L (💰 EXPENSIVE)"
     elif inr_price >= 1_000:  # Thousands INR
@@ -85,26 +99,26 @@ def get_shipping_humor(planet_name, delivery_cost):
     # Convert to INR for comparison
     inr_cost = delivery_cost * 83
     
-    if inr_cost > 83_000_000:  # 83M INR (1M USD)
+    if inr_cost > 83_000_000_000:  # 830 Billion INR (10B USD)
         messages = [
-            f"🚀 Shipping to {planet_name}: More expensive than a small nation's GDP!",
-            f"💸 Fun fact: You could buy a private island instead of shipping to {planet_name}!",
-            f"🏦 Your bank called - they want to discuss your {planet_name} shopping addiction.",
-            f"⭐ Congratulations! You've unlocked the 'Cosmic Spender' achievement!"
+            f"🌌 Shipping to {planet_name}: More expensive than India's entire space program budget!",
+            f"💸 Fun fact: You could build your own space agency instead of shipping to {planet_name}!",
+            f"🏛️ This cost exceeds the GDP of several small countries combined!",
+            f"⭐ Congratulations! You've achieved 'Economic Destroyer' status!"
         ]
-    elif inr_cost > 8_300_000:  # 83L INR (100K USD)
+    elif inr_cost > 8_300_000_000:  # 83 Billion INR (1B USD)
         messages = [
-            f"🎯 Shipping to {planet_name}: Costs more than most luxury cars in India!",
-            f"📈 Investment tip: SpaceBuy stock goes up every time someone ships to {planet_name}!",
-            f"🎓 You could fund multiple engineering degrees for this shipping cost!",
-            f"🏠 Alternatively, you could buy a nice flat in Mumbai for this price!"
+            f"🚀 Shipping to {planet_name}: You could fund a Mars colony for this price!",
+            f"📈 Investment tip: This single order will affect the global economy!",
+            f"🏭 You could build an entire industrial empire for this shipping cost!",
+            f"🏰 Alternatively, you could become the richest person in several states!"
         ]
-    elif inr_cost > 830_000:  # 8.3L INR (10K USD)
+    elif inr_cost > 830_000_000:  # 8.3 Billion INR (100M USD)
         messages = [
-            f"💰 Shipping to {planet_name}: Expensive enough to make you question your priorities!",
-            f"🎪 For this price, we could hire a Bollywood dance troupe to deliver your package!",
-            f"📱 You could buy 10 iPhones instead of paying this shipping cost!",
-            f"🛺 We could probably auto-rickshaw your package around India 1000 times for this price!"
+            f"💰 Shipping to {planet_name}: More than most Bollywood movies' lifetime earnings!",
+            f"🎪 For this price, we could hire the entire Indian cricket team as delivery boys!",
+            f"📱 You could buy every iPhone in India and still have money left over!",
+            f"🛺 We could gold-plate every auto-rickshaw in Mumbai for this price!"
         ]
     else:
         messages = [

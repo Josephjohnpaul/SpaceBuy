@@ -35,8 +35,8 @@ def get_ai_pricing(product_name, planet_info):
         Respond with JSON in this exact format:
         {{
             "base_price": [estimated Earth price in USD],
-            "multiplier": [price multiplier for this planet, between 2x and 50x],
-            "reasoning": "[funny but logical explanation for the pricing, with some Indian context or references]"
+            "multiplier": [price multiplier for this planet, between 50x and 1000x - make it VERY expensive],
+            "reasoning": "[funny but logical explanation for the ridiculously high pricing, with some Indian context or references]"
         }}
         
         Make the reasoning humorous but scientifically plausible. Include some Indian references for relatability. Be creative!
@@ -118,11 +118,18 @@ def get_fallback_pricing(product_name, planet_info):
     elif any(word in product_lower for word in ['watch', 'rolex']):
         base_price = 5000.0
     
-    # Calculate multiplier based on planet difficulty
+    # Calculate much higher multiplier based on planet difficulty
     difficulty = planet_info.get('delivery_difficulty', 5.0)
     distance = planet_info.get('distance', 1.0)
     
-    multiplier = max(2.0, difficulty * distance * random.uniform(0.8, 1.2))
+    # Much higher base multiplier with more aggressive scaling
+    multiplier = max(50.0, difficulty * distance * random.uniform(20.0, 100.0))
+    
+    # Additional penalties for extreme conditions
+    if difficulty >= 9.0:
+        multiplier *= random.uniform(5.0, 20.0)  # Extreme difficulty bonus
+    if distance > 10.0:
+        multiplier *= (distance / 2.0)  # Distance penalty for outer planets
     
     reasons = [
         f"Extreme shipping costs due to {planet_info['distance']} AU distance and {planet_info['atmosphere']} atmosphere",
